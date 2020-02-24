@@ -2,15 +2,16 @@ package com.openairlines.hashcode
 
 import org.apache.commons.math3.stat.Frequency
 import java.io.File
-import java.lang.Integer.min
+import java.text.DecimalFormat
 import java.time.LocalDateTime
+import java.util.*
 
 fun main() {
     var startMs = System.currentTimeMillis()
     println(LocalDateTime.now())
     val files = File("inputs").listFiles()?.asList()
     files?.sortedBy { it.name }
-    val score = files?.filter { it.name != "d.txt" }
+    val score = files?.filter { true || it.name != "d.txt" }
             ?.map {
                 println(it.name)
                 processFile(it)
@@ -18,8 +19,8 @@ fun main() {
     if (score > 24952686)
         println("NEW SCORE")
     var endMs = System.currentTimeMillis()
-    println(LocalDateTime.now().toString() + "(${(endMs - startMs) / 1000}s)")
-    println("Total $score")
+    println(LocalDateTime.now().toString() + " (${(endMs - startMs) / 1000}s)")
+    println("Total ${DecimalFormat.getInstance(Locale.ROOT).format(score)}")
 }
 
 fun processFile(file: File): Int {
@@ -43,6 +44,8 @@ fun processFile(file: File): Int {
 
     val booksFreq = Frequency()
     allBookScores.forEach { booksFreq.addValue(it) }
+    println("Libraries: ${libraries.size}" +
+            ", avg: ${libraries.map { it to it.books.sumBy { it.score } }.sumBy { it.second } / totalLibs}")
     println("Books score")
     if (uniqueBookScore != null)
         println("Unique: $uniqueBookScore")
@@ -57,35 +60,59 @@ fun processFile(file: File): Int {
     val outputFileLines = listOf<String>().toMutableList()
     var remainingDays = totalDays
     var nbLibApplied = 0
-    val scannedBooks = mutableSetOf<Int>()
-    var sentScore = 0
-    var sentBooks = 0
+    val scannedBooks = mutableSetOf<Book>()
+    val uniqueScannedBooks = mutableSetOf<Book>()
 
     while (remainingDays > 0 && libraries.isNotEmpty()) {
+        if (remainingDays.rem(1000) <= 1) print("$remainingDays, ")
         libraries.removeIf {
             it.signupTime >= remainingDays ||
-                    scannedBooks.containsAll(it.books.map { book -> book.id }) ||
-                    numberOfNewBookUntil(it, remainingDays, scannedBooks) <= 0
+                    uniqueScannedBooks.containsAll(it.books)
+//                    numberOfNewBookUntil(it, remainingDays, scannedBooks) <= 0
         }
-        libraries.sortByDescending { scoreForNewBookUntil(it, remainingDays, scannedBooks) / it.signupTime }
-        libraries.firstOrNull()?.let { library ->
-            libraries.remove(library)
-            val newBooks = newBookUntil(library, remainingDays, scannedBooks)
-            if (newBooks.isNotEmpty()) {
-                // Just some indicators...
-                sentScore += newBooks.sumBy { it.score }
-                sentBooks += newBooks.size
-                // Keep track of already scanned books
-                //scannedBooks.addAll(newBooks.map { it.id })
-                // Yeah, one more library applied, go to next lib
-                nbLibApplied++
-                remainingDays -= library.signupTime
-                // Output file content generation
-                outputFileLines.add("${library.id} ${newBooks.size}")
-                outputFileLines.add(newBooks.joinToString(" ") { book -> book.id.toString() })
+        if (uniqueBookScore == null) {
+            val scoredLibs = libraries.map { it to newBookUntil(it, remainingDays, scannedBooks) }
+                    .sortedBy { it.second.sumBy { it.score } / it.first.signupTime }
+            scoredLibs.lastOrNull()?.let {
+                val library = it.first
+                libraries.remove(library)
+                val newBooks = it.second
+                if (newBooks.isNotEmpty()) {
+                    uniqueScannedBooks.addAll(newBooks)
+                    scannedBooks.addAll(newBooks)
+                    // Yeah, one more library applied, go to next lib
+                    nbLibApplied++
+                    remainingDays -= library.signupTime
+                    // Output file content generation
+                    outputFileLines.add("${library.id} ${newBooks.size}")
+                    outputFileLines.add(newBooks.joinToString(" ") { book -> book.id.toString() })
+                }
+            }
+        } else {
+            val uniqueScoredLibs = libraries.map { it to numberOfNewBookUntil(it, remainingDays, scannedBooks) }
+                    .sortedWith(compareByDescending<Pair<Library, Int>> { it.first.signupTime }.then(compareBy { it.second }))
+                    .toMutableList()
+            uniqueScoredLibs.lastOrNull()?.let {
+                val library = it.first
+                libraries.remove(library)
+                // uniqueScoredLibs.remove(it)
+                val newBooksNum = it.second
+                if (newBooksNum > 0) {
+                    // Just some indicators...
+                    var newBooks = library.books.subList(0, newBooksNum)
+                    uniqueScannedBooks.addAll(newBooks)
+                    scannedBooks.addAll(newBooks)
+                    // Yeah, one more library applied, go to next lib
+                    nbLibApplied++
+                    remainingDays -= library.signupTime
+                    // Output file content generation
+                    outputFileLines.add("${library.id} ${newBooksNum}")
+                    outputFileLines.add(newBooks.joinToString(" ") { book -> book.id.toString() })
+                }
             }
         }
     }
+    println()
 
     // Write results
     File("outputs").mkdir()
@@ -96,35 +123,39 @@ fun processFile(file: File): Int {
         outPutFile.appendText("$it \n")
     }
 
+    val sentScore = uniqueScannedBooks.sumBy { it.score }
+    val sentBooks = uniqueScannedBooks.size
     println("${outPutFile.name}: totalDays: $totalDays, score: $sentScore/$totalBookScores, books: $sentBooks/$totalNumBooks, libs: $nbLibApplied/$totalLibs")
     return sentScore
 }
 
 
-fun scoreForNewBookUntil(library: Library, deadline: Int, alreadyScanBooks: Set<Int>): Int {
-    val numOfNewBooks = numberOfNewBookUntil(library, deadline, alreadyScanBooks)
+fun scoreForNewBookUntil(library: Library, deadline: Int, alreadyScanBooks: Set<Book>): Int {
+    val numOfNewBooks = numberOfNewBookUntil(library, deadline, alreadyScanBooks).toInt()
     return if (numOfNewBooks <= 0)
         0
     else
-        library.books.filter { !alreadyScanBooks.contains(it.id) }.subList(0, numOfNewBooks).sumBy { it.score }
+        library.books.filter { !alreadyScanBooks.contains(it) }.subList(0, numOfNewBooks).sumBy { it.score }
 
 }
 
-fun numberOfNewBookUntil(library: Library, deadline: Int, alreadyScanBooks: Set<Int>): Int {
-    return if (deadline <= library.signupTime)
+fun numberOfNewBookUntil(library: Library, deadline: Int, alreadyScanBooks: Set<Book>): Int {
+    return if (library.signupTime >= deadline)
         0
     else
-        min((deadline - library.signupTime) * library.shipPerDay,
-                library.books.filter { !alreadyScanBooks.contains(it.id) }.size)
+        kotlin.math.min((deadline - library.signupTime).toDouble() * library.shipPerDay,
+                library.books.filter { !alreadyScanBooks.contains(it) }.size.toDouble()).toInt()
 }
 
-fun newBookUntil(library: Library, deadline: Int, alreadyScanBooks: Set<Int>): List<Book> {
-    val newBooks = library.books.filter { !alreadyScanBooks.contains(it.id) }
-    return if (deadline <= library.signupTime)
+fun newBookUntil(library: Library, deadline: Int, alreadyScanBooks: Set<Book>): List<Book> {
+    val newBooks = library.books.filter { !alreadyScanBooks.contains(it) }
+    return if (library.signupTime >= deadline)
         emptyList()
-    else if ((deadline - library.signupTime) * library.shipPerDay >= newBooks.size)
-        newBooks else
-        newBooks.subList(0, (deadline - library.signupTime) * library.shipPerDay)
+    else {
+        if ((deadline - library.signupTime).toDouble() * library.shipPerDay >= newBooks.size)
+            newBooks else
+            newBooks.subList(0, (deadline - library.signupTime) * library.shipPerDay)
+    }
 }
 
 
