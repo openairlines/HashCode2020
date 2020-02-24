@@ -66,15 +66,16 @@ Later at the bar (a little too late for the competition), drinking one last beer
 |Input|totalDays|score  |theoric max score|books delivered|theoric max books|libs delivered|theoric max libs|
 |:----|--------:|------:|----------------:|--------------:|----------------:|-------------:|---------------:|
 |a.txt|7       	|     21|               21|    6          |                6|             2|               2|
-|b.txt|1000  	  |5822900|         10000000|58229          |           100000|            90|             100|
-|c.txt|100000  	|3695589|         30076415|11995          |           100000|           812|           10000|
-|d.txt|30001   	|5028010|          5109000|77354          |            78600|         15000|           30000|
-|e.txt|200     	|5034897|         12548648|29383          |           100000|           155|            1000|
-|f.txt|700      |5308034|         40111142|12993          |           100000|            17|            1000|
+|b.txt|1000  	  |5,822,900|         10,000,000|58,229     |          100,000|            90|             100|
+|c.txt|100,000 	|3,695,589|         30,076,415|11,995     |          100,000|           812|          10,000|
+|d.txt|30001   	|5,028,010|          5,109,000|77,354     |           78,600|        15,000|          30,000|
+|e.txt|200     	|5,034,897|         12,548,648|29,383     |          100,000|           155|            1000|
+|f.txt|700      |5,308,034|         40,111,142|12,993     |          100,000|            17|            1000|
 
 ### Further ideas
 
-We had some ideas we didn't had time to explore during the limited time of the contest... We computed some statistics on libraries, books... We also tried to display our results. It's not impossible to have a future version on this repository that will reach a higher score and generate some beautiful charts ;-).
+We had some ideas we didn't had time to explore during the limited time of the contest... We computed some statistics on libraries, books... We also tried to display our results and viewing the result was very interesting: we are thinking about combining and iterating on the metrics, take into account the remaining time to launch subsription of some libraries later...
+It's not impossible to have a future version on this repository that will reach a higher score and generate some beautiful charts ;-).
 
 # Final words
 
