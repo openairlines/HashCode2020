@@ -72,6 +72,38 @@ Later at the bar (a little too late for the competition), drinking one last beer
 |e.txt|200     	|5,034,897|         12,548,648|29,383     |          100,000|           155|            1000|
 |f.txt|700      |5,308,034|         40,111,142|12,993     |          100,000|            17|            1000|
 
+### Example of display for file [b.txt](inputs/b.txt)
+
+First is the score of the library, then `O` for signup, `v` when library sends, `-`for blocked signup. 
+```
+099900: Ovvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+099800: -Ovvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+099600: --OOvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+099400: ----OOvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+099200: ------OOvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+099000: --------OOvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+098800: ----------OOvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+098500: ------------OOOvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+098200: ---------------OOOvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+097900: ------------------OOOvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+097600: ---------------------OOOvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+097200: ------------------------OOOOvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+096800: ----------------------------OOOOvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+096400: --------------------------------OOOOvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+096000: ------------------------------------OOOOvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+095600: ----------------------------------------OOOOvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+095100: --------------------------------------------OOOOOvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+094600: -------------------------------------------------OOOOOvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+094100: ------------------------------------------------------OOOOOvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+093600: -----------------------------------------------------------OOOOOvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+093000: ----------------------------------------------------------------OOOOOOvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+092400: ----------------------------------------------------------------------OOOOOOvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+091800: ----------------------------------------------------------------------------OOOOOOvvvvvvvvvvvvvvvvvvvvvvvvvv
+091200: ----------------------------------------------------------------------------------OOOOOOvvvvvvvvvvvvvvvvvvvv
+090500: ----------------------------------------------------------------------------------------OOOOOOOvvvvvvvvvvvvv
+089800: -----------------------------------------------------------------------------------------------OOOOOOOvvvvvv
+```
+
 ### Further ideas
 
 We had some ideas we didn't had time to explore during the limited time of the contest... We computed some statistics on libraries, books... We also tried to display our results and viewing the result was very interesting: we are thinking about combining and iterating on the metrics, take into account the remaining time to launch subsription of some libraries later...
