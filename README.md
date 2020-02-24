@@ -31,15 +31,15 @@ First of all, we wrote some boilerplate code in Kotlin to parse input files and 
 
 Here, the rank is the maximum score a library can get within a time frame.
 We computed it as follow:
-- Compute the maximum number of books that can be scanned from a library within a time frame
+* Compute the maximum number of books that can be scanned from a library within a time frame
 maxBooks = (d - T) * M with d the time frame, d0 = D
-- Sort library books by decreasing score
-- Add the score of each book until the maximum is reached or there are no more books
+* Sort library books by decreasing score
+* Add the score of each book until the maximum is reached or there are no more books
 maxScore += orderedBooks[i].score with i from 0 to min(B, maxBooks)
 The whole algorithm was, until there are no more time or libraries left:
-- Compute all library ranks
-- Pick the best ranked library and add it to the result
-- Re-compute the rank for other with a new time frame substracted from the picked library sign up time (d = d - T)
+* Compute all library ranks
+* Pick the best ranked library and add it to the result
+* Re-compute the rank for other with a new time frame substracted from the picked library sign up time (d = d - T)
 
 This first approach allowed us to obtain a reasonnable score for all input datasets in a good amount of time. We submitted a first version in 1h30, reaching a score of 16,000,000.
 
@@ -62,6 +62,15 @@ We were running out of ideas, so we tried to focus on particular cases. For inst
 ## A better ratio
 
 Later at the bar (a little too late for the competition), drinking one last beer we found out that our ratio was not a good choice. We should have cut up the sign up time instead, because of the blocking time it was introducing. Indeed, the more time a library takes to sign up, the more it should decrease its rank. We then reached 25,000,000, which is the score you can have running our code you'll find on github.
+
+|Input|totalDays|score  |theoric max score|books delivered|theoric max books|libs delivered|theoric max libs|
+|:----|--------:|------:|----------------:|--------------:|----------------:|-------------:|---------------:|
+|a.txt|7       	|     21|               21|    6          |                6|             2|               2|
+|b.txt|1000  	  |5822900|         10000000|58229          |           100000|            90|             100|
+|c.txt|100000  	|3695589|         30076415|11995          |           100000|           812|           10000|
+|d.txt|30001   	|5028010|          5109000|77354          |            78600|         15000|           30000|
+|e.txt|200     	|5034897|         12548648|29383          |           100000|           155|            1000|
+|f.txt|700      |5308034|         40111142|12993          |           100000|            17|            1000|
 
 ### Further ideas
 
